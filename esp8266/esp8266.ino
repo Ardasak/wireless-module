@@ -108,41 +108,18 @@ void loop() {
 String Time()
 {
 
-  String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0);
-
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=1VGXJR2KPHCLQ2AP";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Time = sendData(hostt, delay_value, 0); 
+  String Time = return_value("GET /apps/thinghttp/send_request?api_key=1VGXJR2KPHCLQ2AP", 0); 
   
  int index=Time.indexOf("<noscript>");
  int other_index = Time.indexOf("</noscript>");
  Time = Time.substring(index+10,other_index);
 
   return (Time);
-
-  
 }
 
 String altin()
 {
-
- 
-
-  String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0); 
-
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=DXZO3J2RS04POBIP";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Altin = sendData(hostt, delay_value, 0);  
+  String Altin = return_value("GET /apps/thinghttp/send_request?api_key=DXZO3J2RS04POBIP", 0);  
 
  int index=Altin.indexOf("<span");
  int other_index = Altin.indexOf("</span>");
@@ -154,16 +131,8 @@ String altin()
 }
 
 String covid_deaths(){
-  String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0); 
 
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=CN339ON8L48HM1DL";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Nufus = sendData(hostt, delay_value, 0); 
+  String Nufus = return_value("GET /apps/thinghttp/send_request?api_key=CN339ON8L48HM1DL", 0); 
   
  int index=Nufus.indexOf(':');
   Nufus = Nufus.substring(index+1,index+9);
@@ -172,19 +141,8 @@ String covid_deaths(){
 
 String covid_cases()
 {
-
- 
-
-  String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0); 
-
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=4SZMGA8ZTL4X9EX2";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Nufus = sendData(hostt, delay_value, 0);  
+  
+  String Nufus = return_value("GET /apps/thinghttp/send_request?api_key=4SZMGA8ZTL4X9EX2", 0);  
   
  int index=Nufus.indexOf(':');
   Nufus = Nufus.substring(index+1,index+11);
@@ -194,16 +152,7 @@ String covid_cases()
 }
 
 String dolar(){
-    String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0); 
-
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=KZLW40GKMM387198";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Nufus = sendData(hostt, delay_value, 0); 
+ String Nufus = return_value("GET /apps/thinghttp/send_request?api_key=KZLW40GKMM387198", 0); 
 
  int index=Nufus.indexOf("<span");
  int other_index = Nufus.indexOf("</span>");
@@ -213,16 +162,7 @@ String dolar(){
 }
 
 String euro(){
-    String rest = "AT+CIPSEND=90";
-  rest += "\r\n";
-  sendData(rest, delay_value, 0); 
-
-
-  String hostt = "GET /apps/thinghttp/send_request?api_key=8C9627VWDLK2Z5YZ";
-  hostt += "\r\n";
-  hostt += "Host:api.thingspeak.com";
-  hostt += "\r\n\r\n\r\n\r\n\r\n";
-  String Nufus = sendData(hostt, delay_value, 0);
+  String Nufus = return_value("GET /apps/thinghttp/send_request?api_key=8C9627VWDLK2Z5YZ", 0);
   
  int index=Nufus.indexOf("<span");
  int other_index = Nufus.indexOf("</span>");
@@ -232,7 +172,7 @@ String euro(){
 }
 
 
-String sendData(String komut, const int zamangecen, boolean debug)
+String sendData(String komut, boolean debug)
 {
   String response = "";
 
@@ -240,7 +180,7 @@ String sendData(String komut, const int zamangecen, boolean debug)
 
   long int Zaman = millis();
 
-  while ( (Zaman + zamangecen) > millis())
+  while ( (Zaman + delay_value) > millis())
   {
     while (esp.available())
     {
@@ -257,4 +197,15 @@ String sendData(String komut, const int zamangecen, boolean debug)
   }
   
   return response;
+}
+
+String return_value(String hostt, boolean debug){
+  String rest = "AT+CIPSEND=90";
+  rest += "\r\n";
+  sendData(rest, debug); 
+
+  hostt += "\r\n";
+  hostt += "Host:api.thingspeak.com";
+  hostt += "\r\n\r\n\r\n\r\n\r\n";
+  return sendData(hostt, debug);
 }
