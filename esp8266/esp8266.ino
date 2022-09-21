@@ -199,7 +199,7 @@ String sendData(String komut, boolean debug)
   return response;
 }
 
-String return_value(String hostt, boolean debug){
+String returnValue(String hostt, boolean debug){
   String rest = "AT+CIPSEND=90";
   rest += "\r\n";
   sendData(rest, debug); 
